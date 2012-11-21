@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/mainpage.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block script %}
+<script>
+  !function ($) {
+  $(function(){
+  // carousel demo
+  $('#myCarousel').carousel()
+  })
+  }(window.jQuery)
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="myCarousel" class="carousel slide">
+  <div class="carousel-inner">
+    {% for selected_spot in selected_spots %}
+    <div class="item{% if forloop.first %} active{% endif %}">
+      {% for snap in selected_spot.snaps %}
+      <span class="csnap"><img class="csnapimg" src="http://roughhands.kr/images/{{snap.image_id}}/" /></span>
+      {% endfor %}
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>{{selected_spot.info.name}}</h1>
+          <p class="lead">{{selected_spot.info.description}}</p>
+          <!-- <a class="btn btn-large btn-primary" href="#">Sign up today</a> -->
+        </div>
+      </div>
+    </div>      
+    {% endfor %}
+  </div>
+  
+  <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div>
+<div class="btn-toolbar">
+  <div class="btn-group">
+    <button class="btn dropdown-toggle" data-toggle="dropdown">
+      Spot 선택 
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      {% for spot in spot_list %}
+      <li><a href="/?spot={{spot.spot_id}}">{{spot.name}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+<div class="container marketing">
+  <div class="row">
+    {% if snaps %}
+    {% for snap in snaps %}
+    <div class="span4">
+      <img class="img-rounded snap" src="http://roughhands.kr/images/{{snap.image_id}}/" />
+      <p class="snapabout">
+	<span class="snapabout_span"><strong>
+	    <i class="icon-comment"></i>comment {{snap.comments|length}}&nbsp;&nbsp;<i class="icon-thumbs-up"></i>like {{snap.likes|length}}
+	</strong></span>
+	<a class="btn snapabout_btn" href="/bigpage/{{snap.snap_id}}/"><strong>View details &raquo;</strong></a>
+      </p>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

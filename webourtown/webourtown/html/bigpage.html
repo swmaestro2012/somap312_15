@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block title %}Big Page{% endblock %}
+{% block css %}<link rel="stylesheet" href="{{STATIC_URL}}css/bigpage.css" type="text/css" media="screen" />{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    function like(){
+	$.ajax({
+	    url: '/snap/{{snap.snap_id}}/like/',
+	    type: 'POST',
+	    success: function(response) {
+		if (response['success']) {
+		    likeButton = $('#like-button');
+		    likeButton.unbind('click');
+		    likeButton.click(unlike);
+		    likeButton.html('Unlike');
+		    likeCount = $('#like-count');
+		    likeCount.html(Number(likeCount.html())+1);
+		}
+		else {
+		    alert('failed');
+		}
+	    }
+	});
+    }
+
+function unlike(){
+    $.ajax({
+	url: '/snap/{{snap.snap_id}}/unlike/',
+	type: 'POST',
+	success: function(response) {
+	    if (response['success']) {
+		likeButton = $('#like-button');
+		likeButton.unbind('click');
+		likeButton.click(like);
+		likeButton.html('Like');
+		likeCount = $('#like-count');
+		likeCount.html(Number(likeCount.html())-1);
+	    }
+	    else {
+		alert(response['success']);
+		alert(response['message']);
+	    }
+	}
+    });
+}
+function postComment(){
+    var commentBody = $('#comment-body');
+    var comment = $('#comment-body').val();
+    comment = $.trim(comment);
+    if(comment != ""){
+	$.ajax({
+	    url: '/snap/{{snap.snap_id}}/comment/',
+	    type: 'POST',
+	    data: { 
+		'comment': $('#comment-body').val()
+	    },
+	    success: function(response) {
+		if (response['success']) {
+		    appendComment(comment);
+		    commentBody.val('');
+		}
+		else {
+		    alert(response);
+		}
+	    }
+	});
+    }
+    else {
+	commentBody.val('');
+    }
+}
+
+function appendComment(comment){
+    var divcomment = '<div class="divcomment">' +
+      '<span class="profile-image">' +
+	{% if session.user_gender == "M" %}
+	'<img src="{{STATIC_URL}}img/male.jpg" />' +
+	{% else %}
+	'<img src="{{STATIC_URL}}img/female.jpg" />' +
+	{% endif %}
+      '</span>' +
+      '<span class="user-name">' +
+	'<a href=#>{{session.user_nickname}}</a>' +
+      '</span>' +
+      '<span class="comment-body">' +
+	comment +
+      '</span>' +
+    '</div>';
+    $('#comments').append(divcomment);
+}
+</script>
+{% endblock %}
+
+{% block onload_script %}
+{% if like %}
+$('#like-button').click(unlike);
+{% else %}
+$('#like-button').click(like);
+{% endif %}
+$('#comment-button').click(postComment);
+{% endblock %}
+
+{% block facebook %}
+function fblogin(){
+    FB.login(function(response) {
+        if (response.authResponse) {
+            // connected
+        } else {
+            // cancelled
+        }
+    });
+}
+{% endblock %}
+
+{% block content %}
+<div class="big">
+      <div class="row-fluid">
+	<div class="span6">
+	  <img class="snap" src="http://roughhands.kr/images/{{snap.image_id}}/" />
+	</div>
+	<div class="span6">
+	  <!--comment-->
+	  <div id="comment-wrapper" class="well">
+	    <div id="comments">
+	      {% for comment in snap.comments %}
+	      <div class="divcomment">
+		<span class="profile-image">
+		  {% if comment.userinfo.gender == "M" %}
+		  <img src="{{STATIC_URL}}img/male.jpg" />
+		  {% else %}
+		  <img src="{{STATIC_URL}}img/female.jpg" />
+		  {% endif %}
+		</span>
+		<span class="user-name">{{comment.userinfo.nickname}}</span>
+		<span class="comment-body">
+		  {{comment.comment}}
+		</span>
+	      </div>
+	      {% endfor %}
+	    </div>
+
+	    <!--input-->
+	    {% if not session %}
+	    <div>
+	      <strong>Please <a href="/login?next={{request.path}}">Login</a> to leave comment</strong>
+	    </div>
+	    {% else %}
+	    <div id="comment-form">
+	      <span class="info">
+		{% if session.user_gender == "M" %}
+		<img src="{{STATIC_URL}}img/male.jpg" />
+		{% else %}
+		<img src="{{STATIC_URL}}img/female.jpg" />
+		{% endif %}
+	      </span>
+	      <input id="comment-body" class="span8" type="text" placeholder="Please comment here" />
+	      <input id="comment-button" class="btn" type="submit" />
+	    </div>
+	    {% endif %}
+	  </div>
+	  
+	  <!--like-->
+	  <div id="like-wrapper" class="well">
+	    <div class="divlike">
+	      <i class="icon-thumbs-up"></i><span id="like-count">{{snap.likes|length}}</span><span> like this snap!</span>
+	      {% if session %}
+	      {% if like %}
+	      <a id="like-button">Unlike</a>
+	      {% else %}
+	      <a id="like-button">Like</a>
+	      {% endif %}
+	      {% endif %}
+	      <a id="fb-button" href="/fb/">Facebook</a>
+	    </div>
+	  </div>
+
+	</div>
+      </div>
+ </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+.big {
+	margin: 0 auto;
+	max-width: 1000px;
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+.snap { 
+    width:100%; 
+    height:100%;
+}
+
+.divlike { 
+    clear:both; 
+}
+
+.divcomment { 
+    clear:both; 
+    min-height: 32px; 
+    margin-bottom: 6px;
+}
+
+.divcomment .profile-image{ 
+    float: left;
+    width: 37px; 
+    height: 32px;
+    margin-right: 4px;
+}
+
+.divcomment .profile-image img {
+    width: 37px;
+    height: 32px;
+}
+
+.divcomment .user-name{
+    font-size: 12px;
+    font-weight: bold;
+    color: #005580;
+}
+
+#comment-wrapper{
+    margin-bottom: 2px;
+}
+
+#comment-form{
+    margin-bottom: 0px;
+}
+
+#comment-form input{
+    margin-bottom: 0px;
+}
+
+#like-wrapper{
+}
+
+#like-wrapper .icon-thumbs-up{
+    margin-right: 4px;
+}
