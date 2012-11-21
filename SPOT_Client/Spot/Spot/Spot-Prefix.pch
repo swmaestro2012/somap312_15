@@ -1,0 +1,82 @@
+//
+// Prefix header for all source files of the 'Spot' target in the 'Spot' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+
+    #import <Foundation/Foundation.h>
+
+    #import <SystemConfiguration/SystemConfiguration.h>
+    #import <MobileCoreServices/MobileCoreServices.h>
+
+    #import <AssetsLibrary/AssetsLibrary.h>
+    #import <CoreLocation/CoreLocation.h>
+
+    #import <ImageIO/ImageIO.h>
+    #import <QuartzCore/QuartzCore.h>
+
+    #import "AFHTTPClient.h"
+    #import "UIImageView+AFNetworking.h"
+    #import "AFJSONRequestOperation.h"
+    #import "AFHTTPRequestOperation.h"
+
+    #import "SBJson.h"
+
+
+    #import "SPProperties.h"
+
+    #import "RHImageManager.h"
+    #import "RHUtilities.h"
+    #import "RHProtocolSender.h"
+
+    #import "SPSnapInfo.h"
+    #import "SPCellInfo.h"
+    #import "SPUserInfo.h"
+    #import "SPCommentInfo.h"
+    #import "SPSpotInfo.h"
+    #import "SPSpotManager.h"
+    #import "SPUserProfileInfo.h"
+    #import "SPServerObject.h"
+
+    #import "SPAppDelegate.h"
+
+    #import "SPFavoriteViewController.h"
+
+    #import "SPSnapImageView.h"
+    #import "SPSnapCellView.h"
+    #import "SPPostSnapViewController.h"
+    #import "SPSearchPersonViewController.h"
+
+    #import "SPUserProfileViewController.h"
+    #import "SPUserProfileEditViewController.h"
+
+    #import "SPSnapMapView.h"
+    #import "SPSpotMapView.h"
+    #import "SPUserMapView.h"
+    #import "SPSnapMapViewController.h"
+    #import "SPSpotMapViewController.h"
+    #import "SPUserMapViewController.h"
+    #import "SPSpotProfileViewController.h"
+
+    #import "SPSnapShotViewController.h"
+
+    #import "SPLoadingViewController.h"
+
+    #import "SPUserProfileEditViewController.h"
+    #import "SPUserProfileViewController.h"
+
+
+    #import "SPTestGeneratorViewController.h"
+
+    #import "SPMainViewController.h"
+    #import "SPMenuTableViewController.h"
+    #import "SPRootViewController.h"
+
+    #endif
